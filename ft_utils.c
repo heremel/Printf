@@ -18,9 +18,10 @@ int	ft_putchar(char c)
 	write(1, &c, 1);
 	return (1);
 }
-int ft_putstr(char *str)
+
+int	ft_putstr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)
@@ -32,33 +33,33 @@ int ft_putstr(char *str)
 	}
 	return (i);
 }
-int ft_putnbr(int nb)
+
+int	ft_putnbr(int nb)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (nb == -2147483648)
 		return (ft_putstr("-2147483648"));
 	if (nb < 0)
 	{
-		nb = nb *-1;
+		nb = nb * -1;
 		count += ft_putchar('-');
 	}
 	if (nb >= 10)
-	{
 		count += ft_putnbr(nb / 10);
-	}
 	count += ft_putchar(nb % 10 + '0');
 	return (count);
 }
-int ft_putnbr_unsigned(unsigned int nb)
+
+int	ft_putnbr_unsigned(unsigned int nb)
 {
-	unsigned int count;
+	unsigned int	count;
 
 	count = 0;
 	if (nb < 0)
 	{
-		nb = nb *-1;
+		nb = nb * -1;
 		count += ft_putchar('-');
 	}
 	if (nb >= 10)

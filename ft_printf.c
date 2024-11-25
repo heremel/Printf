@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-int ft_hexa_adress(unsigned long n)
+int	ft_hexa_adress(unsigned long n)
 {
-	char *hexa;
-	int	count;
+	char	*hexa;
+	int		count;
 
 	count = 0;
 	if (!n && n == 0)
@@ -28,10 +28,11 @@ int ft_hexa_adress(unsigned long n)
 	count += ft_putchar(hexa[n % 16]);
 	return (count);
 }
+
 int	ft_hexa_base(unsigned int n, int check)
 {
-	char *hexa;
-	int	count;
+	char	*hexa;
+	int		count;
 
 	count = 0;
 	if (!n && n != 0)
@@ -47,6 +48,7 @@ int	ft_hexa_base(unsigned int n, int check)
 	count += ft_putchar(hexa[n % 16]);
 	return (count);
 }
+
 void	ft_format(char c, va_list list, int *count)
 {
 	if (c == 'c')
@@ -71,13 +73,14 @@ void	ft_format(char c, va_list list, int *count)
 		ft_putchar(c);
 	}
 }
-int ft_printf(const char *str, ...)
+
+int	ft_printf(const char *str, ...)
 {
 	va_list	list;
-	int i;
-	int count;
-	va_start(list, str);
+	int		i;
+	int		count;
 
+	va_start(list, str);
 	i = 0;
 	count = 0;
 	if (!str)
@@ -95,13 +98,4 @@ int ft_printf(const char *str, ...)
 	}
 	va_end(list);
 	return (count);
-
-}
-
-#include <stdio.h>
-
-int main()
-{
-	ft_printf("%a\n", "blablacar");
-	// printf(" %u ", -1);
 }
