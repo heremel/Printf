@@ -10,80 +10,87 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-void	ft_hexa_base(unsigned int n)
+int ft_hexa_adress(unsigned long n)
 {
 	char *hexa;
+	int	count;
 
-	hexa = "123456789abcdef";
-	if (n == 0)
-	{
-		ft_putchar('0');
-		return;
-	}
-	else if (n >= 16)
-	{
-		ft_hexa_base(n / 16);
-	}
-	ft_putchar(hexa[n % 16]);
+	count = 0;
+	if (!n && n == 0)
+		return (ft_putstr("(nil)"));
+	hexa = "0123456789abcdef";
+	if (n >= 16)
+		count += ft_hexa_adress(n / 16);
+	if (n < 16)
+		count += ft_putstr("0x");
+	count += ft_putchar(hexa[n % 16]);
+	return (count);
 }
-void	ft_hexa_base_uppercase(unsigned int n)
+int	ft_hexa_base(unsigned int n, int check)
 {
 	char *hexa;
+	int	count;
 
-	hexa = "0123456789ABCDEF";
-	if (n == 0)
+	count = 0;
+	if (!n && n != 0)
+		return (ft_putstr("(nil)"));
+	if (check == 0)
+		hexa = "0123456789abcdef";
+	else
+		hexa = "0123456789ABCDEF";
+	if (n >= 16)
 	{
-		ft_putchar('0');
-		return;
+		count += ft_hexa_base(n / 16, check);
 	}
-	else if (n >= 16)
-	{
-		ft_hexa_base_uppercase(n / 16);
-	}
-	ft_putchar(hexa[n % 16]);
+	count += ft_putchar(hexa[n % 16]);
+	return (count);
 }
-int	ft_format(char c, va_list list)
+void	ft_format(char c, va_list list, int *count)
 {
 	if (c == 'c')
-		ft_putchar(va_arg(list, char));
+		*count += ft_putchar(va_arg(list, int));
 	else if (c == 'd' || c == 'i')
-		ft_putnbr(va_arg(list, int));
+		*count += ft_putnbr(va_arg(list, int));
 	else if (c == 'p')
-		ft_pustr(va_arg(list, void *));
+		*count += ft_hexa_adress(va_arg(list, unsigned long));
 	else if (c == 's')
-		ft_putstr(va_arg(list, char *));
+		*count += ft_putstr(va_arg(list, char *));
 	else if (c == 'u')
-		//ft_putnbr
+		*count += ft_putnbr_unsigned(va_arg(list, unsigned int));
 	else if (c == '%')
-		ft_putchar('%');
+		*count += ft_putchar('%');
 	else if (c == 'x')
-		ft_hexa_base(va_arg(list, unsigned int));
+		*count += ft_hexa_base(va_arg(list, unsigned int), 0);
 	else if (c == 'X')
-		ft_hexa_base_uppercase(va_arg(list, unsigned int));
+		*count += ft_hexa_base(va_arg(list, unsigned int), 1);
+	else
+	{
+		ft_putchar('%');
+		ft_putchar(c);
+	}
 }
-int ft_printf(char *str, ...)
+int ft_printf(const char *str, ...)
 {
 	va_list	list;
-	va_start(list, str);
 	int i;
 	int count;
+	va_start(list, str);
 
 	i = 0;
 	count = 0;
+	if (!str)
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] == '%')
 		{
 			i++;
-			count += ft_format(str[i], list);
+			ft_format(str[i], list, &count);
 		}
 		else
-		{
-			ft_putchar(str[i]);
-			count++;
-		}
+			count += ft_putchar(str[i]);
 		i++;
 	}
 	va_end(list);
@@ -95,6 +102,6 @@ int ft_printf(char *str, ...)
 
 int main()
 {
-	char *str = "Hello World";
-	printf("%s\n", str);
+	ft_printf("%a\n", "blablacar");
+	// printf(" %u ", -1);
 }

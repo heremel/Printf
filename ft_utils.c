@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 #include <unistd.h>
 
 int	ft_putchar(char c)
@@ -23,41 +23,48 @@ int ft_putstr(char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (ft_putstr("(null)"));
 	while (str[i])
 	{
-		ft_putchar(str[i]);
+		write(1, &str[i], 1);
 		i++;
 	}
 	return (i);
 }
 int ft_putnbr(int nb)
 {
-	int count = 0;
+	int count;
 
-	if (nb == -2147463848)
+	count = 0;
+	if (nb == -2147483648)
 		return (ft_putstr("-2147483648"));
 	if (nb < 0)
 	{
 		nb = nb *-1;
-		ft_putchar('-');
+		count += ft_putchar('-');
 	}
-	if (nb >= 0 && nb <= 9)
-	{
-		ft_putchar(nb + '0');
-		count++;
-	}
-	else if (nb > 9)
+	if (nb >= 10)
 	{
 		count += ft_putnbr(nb / 10);
-		ft_putchar(nb % 10 + '0');
-		count++;
 	}
+	count += ft_putchar(nb % 10 + '0');
 	return (count);
 }
-// #include <stdio.h>
-// int main()
-// {
-// 	// ft_putnbr(42);
-// 	// ft_putchar('\n');
-// 	printf("%d\n", ft_putnbr(420));
-// }
+int ft_putnbr_unsigned(unsigned int nb)
+{
+	unsigned int count;
+
+	count = 0;
+	if (nb < 0)
+	{
+		nb = nb *-1;
+		count += ft_putchar('-');
+	}
+	if (nb >= 10)
+	{
+		count += ft_putnbr(nb / 10);
+	}
+	count += ft_putchar(nb % 10 + '0');
+	return (count);
+}
