@@ -42,9 +42,7 @@ int	ft_hexa_base(unsigned int n, int check)
 	else
 		hexa = "0123456789ABCDEF";
 	if (n >= 16)
-	{
 		count += ft_hexa_base(n / 16, check);
-	}
 	count += ft_putchar(hexa[n % 16]);
 	return (count);
 }
@@ -99,3 +97,11 @@ int	ft_printf(const char *str, ...)
 	va_end(list);
 	return (count);
 }
+
+int main()
+{
+	ft_printf("%d%", 54);
+}
+// gerer le %d% etc
+// regler le bug de compil avec flags
+// norme deux instructions en une ligne

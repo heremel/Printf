@@ -57,11 +57,6 @@ int	ft_putnbr_unsigned(unsigned int nb)
 	unsigned int	count;
 
 	count = 0;
-	if (nb < 0)
-	{
-		nb = nb * -1;
-		count += ft_putchar('-');
-	}
 	if (nb >= 10)
 	{
 		count += ft_putnbr(nb / 10);
